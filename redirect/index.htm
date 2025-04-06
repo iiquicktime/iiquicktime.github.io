@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Redirect</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #808080;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #4285f4;
+    }
+    #error-message {
+      color: red;
+      margin-top: 10px;
+    }
+    #link-display {
+      margin-top: 20px;
+    }
+  </style>
+  <script>
+    function getUrlParameter(name) {
+      name = name.replace(/[\[\]]/g, '\\$&');
+      var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+          results = regex.exec(window.location.href);
+      if (!results) return null;
+      if (!results[2]) return '';
+      return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
+
+    function redirect() {
+      var link = getUrlParameter('link');
+      var errorMessage = document.getElementById('error-message');
+
+      if (link) {
+        window.location.href = link;
+      } else {
+        errorMessage.textContent = "Error: The link parameter is empty or the link provided is not available.";
+      }
+    }
+
+    window.onload = function() {
+      var link = getUrlParameter('link');
+      var linkDisplay = document.getElementById('link-display');
+
+      if (link) {
+        linkDisplay.textContent = "Link: " + link;
+      } else {
+        linkDisplay.textContent = "No link provided.";
+      }
+    };
+  </script>
+</head>
+<body>
+  <p>Would you like to go to this link? <p id="link-display"></p></p>
+  <button onclick="redirect()">Go to Link</button>
+  <p id="error-message"></p>
+</body>
+</html>
