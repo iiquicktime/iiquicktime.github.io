@@ -7,6 +7,7 @@
         .status { margin-bottom: 10px; padding: 10px; border: 1px solid #ccc; }
         .online { background-color: #d4edda; color: #155724; }
         .offline { background-color: #f8d7da; color: #721c24; }
+        .poor { background-color: #fff3cd; color: #85640a; }
     </style>
 </head>
 <body>
@@ -19,19 +20,40 @@
     <script>
         async function checkServerStatus() {
             const targetUrl = 'https://iiquicktime.pagekite.me/';
+            const timeout = 3000; // Milliseconds to consider "poor performance"
+
             try {
+                const startTime = Date.now();
                 const response = await fetch(targetUrl, {
-                    method: 'HEAD', // Only need headers
-                    mode: 'no-cors', // Likely needed for pagekite.me
-                    cache: 'no-cache'
+                    method: 'HEAD',
+                    mode: 'no-cors',
+                    cache: 'no-cache',
+                    signal: AbortSignal.timeout(timeout) // Implement timeout
                 });
-                const isOnline = response.ok || response.status === 0; // Status 0 can indicate success for no-cors
-                document.getElementById('serverStatusText').textContent = isOnline ? 'Online' : 'Offline';
-                document.getElementById('serverStatus').className = `status ${isOnline ? 'online' : 'offline'}`;
+                const endTime = Date.now();
+                const responseTime = endTime - startTime;
+
+                if (response.ok || response.status === 0) {
+                    if (responseTime > timeout / 2) { // Adjust this threshold as needed
+                        document.getElementById('serverStatusText').textContent = 'Online (Potentially Slow)';
+                        document.getElementById('serverStatus').className = 'status poor';
+                    } else {
+                        document.getElementById('serverStatusText').textContent = 'Online';
+                        document.getElementById('serverStatus').className = 'status online';
+                    }
+                } else {
+                    document.getElementById('serverStatusText').textContent = 'Offline';
+                    document.getElementById('serverStatus').className = 'status offline';
+                }
             } catch (error) {
-                document.getElementById('serverStatusText').textContent = 'Error';
-                document.getElementById('serverStatus').className = 'status offline';
-                console.error("Error checking server status:", error);
+                if (error.name === 'TimeoutError') {
+                    document.getElementById('serverStatusText').textContent = 'Poor Performance (Timeout)';
+                    document.getElementById('serverStatus').className = 'status poor';
+                } else {
+                    document.getElementById('serverStatusText').textContent = 'Error';
+                    document.getElementById('serverStatus').className = 'status offline';
+                    console.error("Error checking server status:", error);
+                }
             }
         }
 
