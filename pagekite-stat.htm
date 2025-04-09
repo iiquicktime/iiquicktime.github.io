@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Website Status</title>
+    <style>
+        body { font-family: sans-serif; }
+        .status { margin-bottom: 10px; padding: 10px; border: 1px solid #ccc; }
+        .online { background-color: #d4edda; color: #155724; }
+        .offline { background-color: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <h1>Website Status</h1>
+
+    <div id="serverStatus" class="status">
+        <strong>Server Availability (http://iiquicktime.pagekite.me/):</strong> <span id="serverStatusText">Checking...</span>
+    </div>
+
+    <script>
+        async function checkServerStatus() {
+            const targetUrl = 'http://iiquicktime.pagekite.me/';
+            try {
+                const response = await fetch(targetUrl, {
+                    method: 'HEAD', // Only need headers
+                    mode: 'no-cors', // Likely needed for pagekite.me
+                    cache: 'no-cache'
+                });
+                const isOnline = response.ok || response.status === 0; // Status 0 can indicate success for no-cors
+                document.getElementById('serverStatusText').textContent = isOnline ? 'Online' : 'Offline';
+                document.getElementById('serverStatus').className = `status ${isOnline ? 'online' : 'offline'}`;
+            } catch (error) {
+                document.getElementById('serverStatusText').textContent = 'Error';
+                document.getElementById('serverStatus').className = 'status offline';
+                console.error("Error checking server status:", error);
+            }
+        }
+
+        // Call the function to check the server status when the page loads
+        window.onload = function() {
+            checkServerStatus();
+        };
+    </script>
+</body>
+</html>
