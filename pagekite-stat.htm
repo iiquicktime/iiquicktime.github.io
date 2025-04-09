@@ -13,12 +13,12 @@
     <h1>Website Status</h1>
 
     <div id="serverStatus" class="status">
-        <strong>Server Availability (http://iiquicktime.pagekite.me/):</strong> <span id="serverStatusText">Checking...</span>
+        <strong>Server Availability (https://iiquicktime.pagekite.me/):</strong> <span id="serverStatusText">Checking...</span>
     </div>
 
     <script>
         async function checkServerStatus() {
-            const targetUrl = 'http://iiquicktime.pagekite.me/';
+            const targetUrl = 'https://iiquicktime.pagekite.me/';
             try {
                 const response = await fetch(targetUrl, {
                     method: 'HEAD', // Only need headers
