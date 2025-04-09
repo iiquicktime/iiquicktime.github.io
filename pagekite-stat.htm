@@ -8,19 +8,28 @@
         .online { background-color: #d4edda; color: #155724; }
         .offline { background-color: #f8d7da; color: #721c24; }
         .poor { background-color: #fff3cd; color: #85640a; }
+        .checking { color: #000; background-color: #f0f0f0; }
     </style>
 </head>
 <body>
     <h1>Website Status</h1>
 
-    <div id="serverStatus" class="status">
+    <div id="serverStatus" class="status checking">
         <strong>Server Availability (https://iiquicktime.pagekite.me/):</strong> <span id="serverStatusText">Checking...</span>
     </div>
 
     <script>
+        const targetUrl = 'https://iiquicktime.pagekite.me/';
+        const checkInterval = 5000; // Milliseconds (5 seconds)
+        const timeout = 3000; // Milliseconds for timeout
+
         async function checkServerStatus() {
-            const targetUrl = 'https://iiquicktime.pagekite.me/';
-            const timeout = 3000; // Milliseconds to consider "poor performance"
+            const statusDiv = document.getElementById('serverStatus');
+            const statusTextSpan = document.getElementById('serverStatusText');
+
+            // Set status to checking while the request is in progress
+            statusTextSpan.textContent = 'Checking...';
+            statusDiv.className = 'status checking';
 
             try {
                 const startTime = Date.now();
@@ -28,39 +37,45 @@
                     method: 'HEAD',
                     mode: 'no-cors',
                     cache: 'no-cache',
-                    signal: AbortSignal.timeout(timeout) // Implement timeout
+                    signal: AbortSignal.timeout(timeout)
                 });
                 const endTime = Date.now();
                 const responseTime = endTime - startTime;
 
                 if (response.ok || response.status === 0) {
-                    if (responseTime > timeout / 2) { // Adjust this threshold as needed
-                        document.getElementById('serverStatusText').textContent = 'Online (Potentially Slow)';
-                        document.getElementById('serverStatus').className = 'status poor';
+                    if (responseTime > timeout / 2) {
+                        statusTextSpan.textContent = 'Online (Potentially Slow)';
+                        statusDiv.className = 'status poor';
                     } else {
-                        document.getElementById('serverStatusText').textContent = 'Online';
-                        document.getElementById('serverStatus').className = 'status online';
+                        statusTextSpan.textContent = 'Online';
+                        statusDiv.className = 'status online';
                     }
                 } else {
-                    document.getElementById('serverStatusText').textContent = 'Offline';
-                    document.getElementById('serverStatus').className = 'status offline';
+                    statusTextSpan.textContent = 'Offline';
+                    statusDiv.className = 'status offline';
                 }
             } catch (error) {
                 if (error.name === 'TimeoutError') {
-                    document.getElementById('serverStatusText').textContent = 'Poor Performance (Timeout)';
-                    document.getElementById('serverStatus').className = 'status poor';
+                    statusTextSpan.textContent = 'Poor Performance (Timeout)';
+                    statusDiv.className = 'status poor';
                 } else {
-                    document.getElementById('serverStatusText').textContent = 'Error';
-                    document.getElementById('serverStatus').className = 'status offline';
+                    statusTextSpan.textContent = 'Error';
+                    statusDiv.className = 'status offline';
                     console.error("Error checking server status:", error);
                 }
             }
         }
 
-        // Call the function to check the server status when the page loads
-        window.onload = function() {
+        function startStatusChecks() {
+            // Initial check when the page loads
             checkServerStatus();
-        };
+
+            // Set up an interval to check the status every 'checkInterval' milliseconds
+            setInterval(checkServerStatus, checkInterval);
+        }
+
+        // Call the function to start the status checks when the page loads
+        window.onload = startStatusChecks;
     </script>
 </body>
 </html>
