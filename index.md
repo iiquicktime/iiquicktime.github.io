@@ -13,3 +13,5 @@ This is where I'll put download links.
 
 [Link 1](https://iiquicktime.github.io/crazycattle3d)
 [Link 2](https://file.garden/ZvdGeKbDvGKGr37q/cc3d/index.html)
+
+**NOTE: I do NOT own this game. This game was made by [Anna](https://4nn4t4t.itch.io/).**
