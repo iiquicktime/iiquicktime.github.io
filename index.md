@@ -12,7 +12,7 @@ This is where I'll put download links.
 **CrazyCattle3D**
 
 [Link 1](https://iiquicktime.github.io/crazycattle3d)
-[Link 2](https://cc3d-iiquicktime.wasmer.app/)
+[![Wasmer logo](https://i.imgur.com/MEsrHW1.png)](https://cc3d-iiquicktime.wasmer.app "Play from wasmer.app")
 [Link 3](https://file.garden/ZvdGeKbDvGKGr37q/6372617a79636174746c653364/index.html)
 
 **NOTE: I do NOT own this game. This game was made by [Anna](https://4nn4t4t.itch.io/).**
