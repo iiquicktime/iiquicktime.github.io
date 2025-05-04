@@ -17,4 +17,8 @@ This is where I'll put download links.
 
 **NOTE: I do NOT own this game. This game was made by [Anna](https://4nn4t4t.itch.io/).**
 
+## Tools
+
+[UTF-8 Browser Test Page](/utf8_test.htm)
+
 ![lavachicken.gif](https://i.imgur.com/IJRjxlj.gif)
