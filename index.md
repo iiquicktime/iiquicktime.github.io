@@ -19,7 +19,7 @@ This is where I'll put download links.
 
 ## Tools
 
-*[UTF-8 Browser Test Page (Old)]([deleted] "deleted")*
+*UTF-8 Browser Test Page (Old)*
 **[UTF-8 Browser Test Page](/utf8_test.txt)**
 
 ![lavachicken.gif](https://i.imgur.com/IJRjxlj.gif)
